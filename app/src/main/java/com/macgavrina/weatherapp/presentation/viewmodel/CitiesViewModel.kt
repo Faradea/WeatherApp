@@ -36,7 +36,21 @@ class CitiesViewModel(application: Application) : AndroidViewModel(MainApplicati
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { cities ->
                     this.cities.value = cities
+                    cities.forEach { city ->
+                        getWeatherForCity(city)
+                    }
                 })
+    }
+
+    private fun getWeatherForCity(city: City) {
+        compositeDisposable.add(
+            CityUseCase.getWeatherForCity(city)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { weatherForCity ->
+                    Log.d(LOG_TAG, "com.macgavrina.weatherapp.data.model.Weather for city is received from server, $weatherForCity")
+                }
+        )
     }
 
     override fun onCleared() {
