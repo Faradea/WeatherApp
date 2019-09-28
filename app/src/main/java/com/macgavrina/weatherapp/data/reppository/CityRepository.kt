@@ -3,6 +3,7 @@ package com.macgavrina.weatherapp.data.reppository
 import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.data.model.City
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 object CityRepository {
@@ -16,5 +17,9 @@ object CityRepository {
 
     fun addCity(city: City): Completable {
         return cityDAO.insertCity(city)
+    }
+
+    fun getCityById(cityId: Int): Maybe<City> {
+        return cityDAO.getCity(cityId)
     }
 }

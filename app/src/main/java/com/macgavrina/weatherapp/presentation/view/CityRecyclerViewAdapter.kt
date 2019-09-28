@@ -10,10 +10,11 @@ import com.macgavrina.weatherapp.data.model.City
 import com.macgavrina.weatherapp.presentation.viewmodel.CitiesViewModel
 import kotlinx.android.synthetic.main.city_list_card.view.*
 
-class CityRecyclerViewAdapter(private var cityViewModel: CitiesViewModel) :
+class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
     RecyclerView.Adapter<CityRecyclerViewAdapter.ViewHolder>() {
 
     private var mItems: List<City>? = null
+    private val mOnClickListener: OnCityClickListener = inputOnClickListener
 
     fun setCities(cities: List<City>) {
         this.mItems = cities
@@ -26,14 +27,9 @@ class CityRecyclerViewAdapter(private var cityViewModel: CitiesViewModel) :
         val cityHumidityTV = view.city_humidity_text
         val cityLocationTV = view.city_location_text
         val cityTemperatureTV = view.city_temperature_text
+        val cityCard = view.city_card
 
         private var mItem: City? = null
-
-        init {
-            view.setOnClickListener{
-                //ToDo
-            }
-        }
 
         fun setItem(item: City) {
             mItem = item
@@ -66,6 +62,11 @@ class CityRecyclerViewAdapter(private var cityViewModel: CitiesViewModel) :
         holder.cityLocationTV.text = "lat: ${item.coordinates.lat}, lng: ${item.coordinates.lng}"
         holder.cityTemperatureTV.text = item.airTemp.toString()
 
+        holder.cityCard.setOnClickListener {
+            mOnClickListener.onItemClick(item)
+        }
+
+
         holder.setItem(mItems!![position])
     }
 
@@ -77,8 +78,8 @@ class CityRecyclerViewAdapter(private var cityViewModel: CitiesViewModel) :
         return -1
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(item: City)
+    interface OnCityClickListener {
+        fun onItemClick(city: City)
     }
 
 }
