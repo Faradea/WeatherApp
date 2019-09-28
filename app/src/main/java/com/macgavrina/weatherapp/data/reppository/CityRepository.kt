@@ -8,6 +8,7 @@ import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 
+//ToDo Separate City and Weather repositories
 object CityRepository {
 
     private val cityDAO = MainApplication.db.cityDAO()

@@ -9,6 +9,7 @@ import com.macgavrina.weatherapp.LOG_TAG
 import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.data.model.City
 import com.macgavrina.weatherapp.domain.usecase.CityUseCase
+import com.macgavrina.weatherapp.domain.usecase.ForecastUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -35,6 +36,7 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
                     this.selectedCity.value = cityDetails
                     //ToDo Fix RxJava hell
                     loadCityWeather(cityDetails)
+                    loadCityForecast(cityDetails)
                 })
     }
 
@@ -51,6 +53,19 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
                     this.selectedCity.postValue(this.selectedCity.value)
                 }, {error ->
                     Log.e(LOG_TAG, "error loading weather for city, $error")
+                })
+        )
+    }
+
+    private fun loadCityForecast(city: City) {
+        compositeDisposable.add(
+            ForecastUseCase.getForecastForCity(city)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({ weather ->
+                    Log.d(LOG_TAG, "Forecast for city is received from API, $weather")
+                }, {error ->
+                    Log.e(LOG_TAG, "error loading forecast for city, $error")
                 })
         )
     }
