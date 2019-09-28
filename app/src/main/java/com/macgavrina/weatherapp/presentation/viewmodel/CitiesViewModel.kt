@@ -18,8 +18,6 @@ class CitiesViewModel(application: Application) : AndroidViewModel(MainApplicati
 
     private val compositeDisposable = CompositeDisposable()
     private var cities = MutableLiveData<List<City>>()
-    private var selectedCityId: Int? = null
-    private var selectedCity = MutableLiveData<City>()
 
     init {
         loadCities()
@@ -48,7 +46,17 @@ class CitiesViewModel(application: Application) : AndroidViewModel(MainApplicati
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { weatherForCity ->
-                    Log.d(LOG_TAG, "com.macgavrina.weatherapp.data.model.Weather for city is received from server, $weatherForCity")
+                    Log.d(LOG_TAG, "Weather for city with id = ${city.uid} is received from server, $weatherForCity")
+                    val citiesList = cities.value?.toMutableList()
+                    var i = 0
+                    citiesList?.forEach { cityFromList ->
+                        if (cityFromList.uid == city.uid) {
+                            citiesList[i].humidity = weatherForCity.main.humidity
+                            citiesList[i].airTemp = weatherForCity.main.temp
+                        }
+                        i += 1
+                    }
+                    this.cities.postValue(citiesList)
                 }
         )
     }

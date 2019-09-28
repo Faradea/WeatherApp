@@ -54,12 +54,10 @@ abstract class AppDatabase : RoomDatabase() {
             val citySP = City()
 
             cityMoscow.name = "Moscow"
-            cityMoscow.humidity = 11920000
             cityMoscow.coordinates.lat = 55.751244F
             cityMoscow.coordinates.lng = 37.618423F
 
             citySP.name = "Saint-Petersburg"
-            citySP.humidity = 4991000
             citySP.coordinates.lat = 59.939095F
             citySP.coordinates.lng = 30.315868F
 
