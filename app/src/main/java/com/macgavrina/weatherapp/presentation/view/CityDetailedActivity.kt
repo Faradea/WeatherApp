@@ -7,8 +7,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.macgavrina.weatherapp.LOG_TAG
 import com.macgavrina.weatherapp.R
+import com.macgavrina.weatherapp.data.model.City
 import com.macgavrina.weatherapp.presentation.viewmodel.CitiesViewModel
 import com.macgavrina.weatherapp.presentation.viewmodel.CityDetailsViewModel
+import kotlinx.android.synthetic.main.activity_city_detailed.*
 
 class CityDetailedActivity : AppCompatActivity() {
 
@@ -28,6 +30,13 @@ class CityDetailedActivity : AppCompatActivity() {
 
         viewModel.getSelectedCity().observe(this, Observer { city ->
             Log.d(LOG_TAG, "Selected city: uid = ${city.uid}, name = ${city.name}")
+            displayCityDetails(city)
         })
+    }
+
+    private fun displayCityDetails(city: City) {
+        city_detailed_name.text = city.name
+        city_detailed_temperature.text = city.airTemp.toString()
+        city_detailed_humidity.text = "${city.humidity} %"
     }
 }
