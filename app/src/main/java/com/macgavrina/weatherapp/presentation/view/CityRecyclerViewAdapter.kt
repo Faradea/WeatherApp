@@ -6,17 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.R
-import com.macgavrina.weatherapp.data.model.City
-import com.macgavrina.weatherapp.presentation.viewmodel.CitiesViewModel
+import com.macgavrina.weatherapp.data.model.CityWithWeather
 import kotlinx.android.synthetic.main.city_list_card.view.*
+
+
 
 class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
     RecyclerView.Adapter<CityRecyclerViewAdapter.ViewHolder>() {
 
-    private var mItems: List<City>? = null
+    private var mItems: List<CityWithWeather>? = null
     private val mOnClickListener: OnCityClickListener = inputOnClickListener
 
-    fun setCities(cities: List<City>) {
+    fun setCities(cities: List<CityWithWeather>) {
         this.mItems = cities
         notifyDataSetChanged()
     }
@@ -29,9 +30,9 @@ class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
         val cityTemperatureTV = view.city_temperature_text
         val cityCard = view.city_card
 
-        private var mItem: City? = null
+        private var mItem: CityWithWeather? = null
 
-        fun setItem(item: City) {
+        fun setItem(item: CityWithWeather) {
             mItem = item
         }
 
@@ -56,11 +57,23 @@ class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
 
         val item = mItems?.get(position) ?: return
 
-        holder.cityNameTV.text = item.name
-        holder.cityHumidityTV.text = item.humidity.toString()
-        //ToDo use string res with placeholders
-        holder.cityLocationTV.text = "lat: ${item.coordinates.lat}, lng: ${item.coordinates.lng}"
-        holder.cityTemperatureTV.text = item.airTemp.toString()
+        holder.cityNameTV.text = item.city.name
+
+        holder.cityLocationTV.text = MainApplication.applicationContext().resources.getString(R.string.coordinates,
+            item.city.coordinates.lat, item.city.coordinates.lng)
+
+        if (item.weatherForCity?.main?.temp == null) {
+            holder.cityTemperatureTV.text = ""
+        } else {
+            holder.cityTemperatureTV.text = MainApplication.applicationContext().resources.getString(R.string.temperature,
+                item.weatherForCity?.main?.temp.toString())
+        }
+
+        if (item.weatherForCity?.main?.humidity == null) {
+            holder.cityHumidityTV.text = ""
+        } else {
+            holder.cityHumidityTV.text = "${item.weatherForCity?.main?.humidity} %"
+        }
 
         holder.cityCard.setOnClickListener {
             mOnClickListener.onItemClick(item)
@@ -79,7 +92,7 @@ class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
     }
 
     interface OnCityClickListener {
-        fun onItemClick(city: City)
+        fun onItemClick(cityWithWeather: CityWithWeather)
     }
 
 }

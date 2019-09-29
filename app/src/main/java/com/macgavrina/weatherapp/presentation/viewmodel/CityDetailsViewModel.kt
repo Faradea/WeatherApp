@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.macgavrina.weatherapp.LOG_TAG
 import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.data.model.City
+import com.macgavrina.weatherapp.data.model.CityWithWeather
 import com.macgavrina.weatherapp.data.model.HourlyForecastElement
 import com.macgavrina.weatherapp.domain.usecase.CityUseCase
 import com.macgavrina.weatherapp.domain.usecase.ForecastUseCase
@@ -18,11 +19,11 @@ import io.reactivex.schedulers.Schedulers
 class CityDetailsViewModel(application: Application) : AndroidViewModel(MainApplication.instance) {
 
     private val compositeDisposable = CompositeDisposable()
-    private var selectedCity = MutableLiveData<City>()
+    private var selectedCityWithWeather = MutableLiveData<CityWithWeather>()
     private var hourForecast = MutableLiveData<List<HourlyForecastElement>>()
 
-    fun getSelectedCity(): LiveData<City> {
-        return selectedCity
+    fun getSelectedCity(): LiveData<CityWithWeather> {
+        return selectedCityWithWeather
     }
 
     fun getForecast(): LiveData<List<HourlyForecastElement>> {
@@ -38,8 +39,8 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
             CityUseCase.getCityDetails(cityId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { cityDetails->
-                    this.selectedCity.value = cityDetails
+                .subscribe { cityDetails ->
+                    this.selectedCityWithWeather.value = CityWithWeather(cityDetails, null)
                     //ToDo Fix RxJava hell
                     loadCityWeather(cityDetails)
                     loadCityForecast(cityDetails)
@@ -54,9 +55,9 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
                 .subscribe ({ weather ->
                     Log.d(LOG_TAG, "Weather for city is received from API, $weather")
                     //ToDo calculate datetime based on timezone
-                    this.selectedCity.value?.airTemp = weather.main.temp
-                    this.selectedCity.value?.humidity = weather.main.humidity
-                    this.selectedCity.postValue(this.selectedCity.value)
+//                    this.selectedCity.value?.airTemp = weather.main.temp
+//                    this.selectedCity.value?.humidity = weather.main.humidity
+                    this.selectedCityWithWeather.postValue(CityWithWeather(city, weather))
                 }, {error ->
                     Log.e(LOG_TAG, "error loading weather for city, $error")
                 })

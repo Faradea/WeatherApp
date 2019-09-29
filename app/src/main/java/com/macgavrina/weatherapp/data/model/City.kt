@@ -4,9 +4,6 @@ import androidx.room.*
 
 //Each city item must contain a title of the city, its coordinates (lat, lng), humidity, and current air temperature.
 
-
-//ToDo use embedded for humidity and airTemp
-
 @Entity
 class City {
     @PrimaryKey(autoGenerate = true)
@@ -17,10 +14,4 @@ class City {
 
     @Embedded
     var coordinates: Coordinates = Coordinates(0F, 0F)
-
-    @ColumnInfo(name = "humidity")
-    var humidity: Int = 0
-
-    @Ignore
-    var airTemp: Float = 0f
 }

@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.macgavrina.weatherapp.LOG_TAG
 import com.macgavrina.weatherapp.R
-import com.macgavrina.weatherapp.data.model.City
-import com.macgavrina.weatherapp.presentation.viewmodel.CitiesViewModel
+import com.macgavrina.weatherapp.data.model.CityWithWeather
 import com.macgavrina.weatherapp.presentation.viewmodel.CityDetailsViewModel
 import kotlinx.android.synthetic.main.activity_city_detailed.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class CityDetailedActivity : AppCompatActivity() {
 
@@ -33,7 +31,7 @@ class CityDetailedActivity : AppCompatActivity() {
         }
 
         viewModel.getSelectedCity().observe(this, Observer { city ->
-            Log.d(LOG_TAG, "Selected city: uid = ${city.uid}, name = ${city.name}")
+            Log.d(LOG_TAG, "Selected city: uid = ${city.city.uid}, name = ${city.city.name}")
             displayCityDetails(city)
         })
 
@@ -47,9 +45,16 @@ class CityDetailedActivity : AppCompatActivity() {
         })
     }
 
-    private fun displayCityDetails(city: City) {
-        city_detailed_name.text = city.name
-        city_detailed_temperature.text = city.airTemp.toString()
-        city_detailed_humidity.text = "${city.humidity} %"
+    private fun displayCityDetails(city: CityWithWeather) {
+        city_detailed_name.text = city.city.name
+        if (city.weatherForCity?.dt != null) {
+            city_detailed_datetime.text = city.weatherForCity?.dt.toString()
+        }
+        if (city.weatherForCity?.main != null) {
+            city_detailed_temperature.text = resources.getString(R.string.temperature, city.weatherForCity?.main?.temp.toString())
+        }
+        if (city.weatherForCity?.main?.humidity != null) {
+            city_detailed_humidity.text = "${city.weatherForCity?.main?.humidity} %"
+        }
     }
 }
