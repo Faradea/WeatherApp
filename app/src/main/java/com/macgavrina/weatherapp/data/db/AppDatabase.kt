@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.macgavrina.weatherapp.LOG_TAG
 import com.macgavrina.weatherapp.data.model.City
-import com.macgavrina.weatherapp.data.reppository.CityRepository
+import com.macgavrina.weatherapp.data.repository.CityRepository
 import io.reactivex.schedulers.Schedulers
 
 @Database(entities = arrayOf(City::class), version = AppDatabase.DATABASE_VERSION)

@@ -1,13 +1,8 @@
-package com.macgavrina.weatherapp.data.reppository
+package com.macgavrina.weatherapp.data.repository
 
-import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.data.api.ForecastAPI
-import com.macgavrina.weatherapp.data.api.WeatherAPI
 import com.macgavrina.weatherapp.data.model.City
 import com.macgavrina.weatherapp.data.model.HourlyForecast
-import com.macgavrina.weatherapp.data.model.WeatherForCity
-import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Single
 
 object ForecastRepository {

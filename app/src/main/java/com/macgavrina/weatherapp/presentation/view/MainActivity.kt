@@ -1,5 +1,6 @@
 package com.macgavrina.weatherapp.presentation.view
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,11 +15,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
 import com.macgavrina.weatherapp.data.model.CityWithWeather
 
-//ToDo strings from xml to res
-//ToDo check all code with Lint
 //ToDo Use Koin/Dagger
 
 const val CITY_ID_KEY = "cityId"
+const val ADD_CITY_ACTIVITY_REQUEST_CODE = 1
 
 class MainActivity : AppCompatActivity(), CityRecyclerViewAdapter.OnCityClickListener {
 
@@ -38,17 +38,35 @@ class MainActivity : AppCompatActivity(), CityRecyclerViewAdapter.OnCityClickLis
         viewModel.getCities().observe(this, Observer { cities ->
             updateCitiesList(cities)
         })
+
+        add_city_button.setOnClickListener {
+            startAddCityActivity()
+        }
     }
 
-    override fun onItemClick(city: CityWithWeather) {
-        Log.d(LOG_TAG, "on city click: city = $city")
+    override fun onItemClick(cityWithWeather: CityWithWeather) {
+        Log.d(LOG_TAG, "on city click: city = $cityWithWeather")
         val intent = Intent(this, CityDetailedActivity::class.java)
-        intent.putExtra(CITY_ID_KEY, city.city.uid)
+        intent.putExtra(CITY_ID_KEY, cityWithWeather.city.uid)
         startActivity(intent)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode != ADD_CITY_ACTIVITY_REQUEST_CODE) return
+        if (resultCode != Activity.RESULT_OK) return
+
+        viewModel.newCityWasAdded()
     }
 
     private fun updateCitiesList(cities: List<CityWithWeather>) {
         Log.d(LOG_TAG, "cities list is changed, update UI with cities list, length = ${cities.size}")
         citiesRecyclerViewAdapter.setCities(cities)
+    }
+
+    private fun startAddCityActivity() {
+        val intent = Intent(this, AddCityActivity::class.java)
+        startActivityForResult(intent, ADD_CITY_ACTIVITY_REQUEST_CODE)
     }
 }

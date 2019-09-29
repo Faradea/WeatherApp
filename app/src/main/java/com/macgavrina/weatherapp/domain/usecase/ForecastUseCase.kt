@@ -2,7 +2,7 @@ package com.macgavrina.weatherapp.domain.usecase
 
 import com.macgavrina.weatherapp.data.model.City
 import com.macgavrina.weatherapp.data.model.HourlyForecast
-import com.macgavrina.weatherapp.data.reppository.ForecastRepository
+import com.macgavrina.weatherapp.data.repository.ForecastRepository
 import io.reactivex.Single
 
 object ForecastUseCase {

@@ -1,4 +1,4 @@
-package com.macgavrina.weatherapp.data.reppository
+package com.macgavrina.weatherapp.data.repository
 
 import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.data.api.WeatherAPI

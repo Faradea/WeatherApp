@@ -41,7 +41,6 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { cityDetails ->
                     this.selectedCityWithWeather.value = CityWithWeather(cityDetails, null)
-                    //ToDo Fix RxJava hell
                     loadCityWeather(cityDetails)
                     loadCityForecast(cityDetails)
                 })
@@ -54,9 +53,6 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ weather ->
                     Log.d(LOG_TAG, "Weather for city is received from API, $weather")
-                    //ToDo calculate datetime based on timezone
-//                    this.selectedCity.value?.airTemp = weather.main.temp
-//                    this.selectedCity.value?.humidity = weather.main.humidity
                     this.selectedCityWithWeather.postValue(CityWithWeather(city, weather))
                 }, {error ->
                     Log.e(LOG_TAG, "error loading weather for city, $error")

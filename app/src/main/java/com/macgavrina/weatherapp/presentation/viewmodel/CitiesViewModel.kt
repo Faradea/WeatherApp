@@ -29,6 +29,10 @@ class CitiesViewModel(application: Application) : AndroidViewModel(MainApplicati
         return citiesWithWeather
     }
 
+    fun newCityWasAdded() {
+        loadCities()
+    }
+
     private fun loadCities() {
         compositeDisposable.add(
             CityUseCase.getAllCities()
@@ -65,7 +69,7 @@ class CitiesViewModel(application: Application) : AndroidViewModel(MainApplicati
                     this.citiesWithWeather.postValue(citiesList)
                 }, {error ->
                     Log.e(LOG_TAG, "Error loading weather for city, $error")
-                    //ToDo Display toast
+                    //ToDo MANDATORY Display toast
                 })
         )
     }

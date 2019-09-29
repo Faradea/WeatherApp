@@ -11,7 +11,11 @@ import com.macgavrina.weatherapp.data.model.Main
 import com.macgavrina.weatherapp.utils.DateFormatter
 import kotlinx.android.synthetic.main.hourly_forecast_list_item.view.*
 
+
+//ToDo MANDATORY add date before time
+
 class HourlyForecastViewAdapter:
+
     RecyclerView.Adapter<HourlyForecastViewAdapter.ViewHolder>() {
 
     private var mItems: List<HourlyForecastElement>? = null

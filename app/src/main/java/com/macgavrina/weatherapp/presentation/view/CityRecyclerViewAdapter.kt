@@ -9,7 +9,7 @@ import com.macgavrina.weatherapp.R
 import com.macgavrina.weatherapp.data.model.CityWithWeather
 import kotlinx.android.synthetic.main.city_list_card.view.*
 
-
+//ToDo MANDATORY round coordinates
 
 class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
     RecyclerView.Adapter<CityRecyclerViewAdapter.ViewHolder>() {

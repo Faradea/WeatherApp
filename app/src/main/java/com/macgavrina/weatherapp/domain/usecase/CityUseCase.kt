@@ -2,7 +2,8 @@ package com.macgavrina.weatherapp.domain.usecase
 
 import com.macgavrina.weatherapp.data.model.City
 import com.macgavrina.weatherapp.data.model.WeatherForCity
-import com.macgavrina.weatherapp.data.reppository.CityRepository
+import com.macgavrina.weatherapp.data.repository.CityRepository
+import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 
@@ -21,5 +22,9 @@ object CityUseCase {
 
     fun getWeatherForCity(city: City): Single<WeatherForCity> {
         return cityRepository.getWeatherForCity(city)
+    }
+
+    fun addCity(city: City): Completable {
+        return cityRepository.addCity(city)
     }
 }
