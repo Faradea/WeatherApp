@@ -6,11 +6,11 @@ data class HourlyForecast (
     val cod: String,
     val message: Double,
     val cnt: Long,
-    val list: List<ListElement>,
+    val list: List<HourlyForecastElement>,
     val city: City
 )
 
-data class ListElement (
+data class HourlyForecastElement (
     val dt: Long,
     val main: MainClass,
     val weather: List<Weather>,

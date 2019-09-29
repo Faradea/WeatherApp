@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:layout_margin="8dp"
+              android:background="#FFFFFF" android:padding="8dp">
+
+    <TextView
+            android:text="00:00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/hourly_forecast_time" android:layout_weight="1"/>
+    <TextView
+            android:text="0 C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/hourly_forecast_temperature"
+            android:layout_weight="1"/>
+    <TextView
+            android:text="758"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/hourly_forecast_pressure" android:layout_weight="1"/>
+    <TextView
+            android:text="50%"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/hourly_forecast_humidity" android:layout_weight="1"/>
+    <TextView
+            android:text="0 m/s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/hourly_forecast_wind" android:layout_weight="1"/>
+</LinearLayout>

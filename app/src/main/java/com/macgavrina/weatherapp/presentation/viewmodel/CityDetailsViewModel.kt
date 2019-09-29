@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.macgavrina.weatherapp.LOG_TAG
 import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.data.model.City
+import com.macgavrina.weatherapp.data.model.HourlyForecastElement
 import com.macgavrina.weatherapp.domain.usecase.CityUseCase
 import com.macgavrina.weatherapp.domain.usecase.ForecastUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,9 +19,14 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
 
     private val compositeDisposable = CompositeDisposable()
     private var selectedCity = MutableLiveData<City>()
+    private var hourForecast = MutableLiveData<List<HourlyForecastElement>>()
 
     fun getSelectedCity(): LiveData<City> {
         return selectedCity
+    }
+
+    fun getForecast(): LiveData<List<HourlyForecastElement>> {
+        return hourForecast
     }
 
     fun setSelectedCityId(cityId: Int) {
@@ -64,6 +70,7 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ weather ->
                     Log.d(LOG_TAG, "Forecast for city is received from API, $weather")
+                    hourForecast.value = weather.list
                 }, {error ->
                     Log.e(LOG_TAG, "error loading forecast for city, $error")
                 })
