@@ -3,4 +3,6 @@
 
     <string name="temperature">%1$s K</string>
     <string name="coordinates">lat: %1$f, lng: %2$f</string>
+    <string name="pressure">%1$s hPa</string>
+    <string name="windspeed">%1$s m/s</string>
 </resources>

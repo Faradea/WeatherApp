@@ -11,6 +11,7 @@ import com.macgavrina.weatherapp.LOG_TAG
 import com.macgavrina.weatherapp.R
 import com.macgavrina.weatherapp.data.model.CityWithWeather
 import com.macgavrina.weatherapp.presentation.viewmodel.CityDetailsViewModel
+import com.macgavrina.weatherapp.utils.DateFormatter
 import kotlinx.android.synthetic.main.activity_city_detailed.*
 
 class CityDetailedActivity : AppCompatActivity() {
@@ -48,7 +49,7 @@ class CityDetailedActivity : AppCompatActivity() {
     private fun displayCityDetails(city: CityWithWeather) {
         city_detailed_name.text = city.city.name
         if (city.weatherForCity?.dt != null) {
-            city_detailed_datetime.text = city.weatherForCity?.dt.toString()
+            city_detailed_datetime.text = DateFormatter.formatDateAndTimeFromTimestamp(city.weatherForCity!!.dt)
         }
         if (city.weatherForCity?.main != null) {
             city_detailed_temperature.text = resources.getString(R.string.temperature, city.weatherForCity?.main?.temp.toString())

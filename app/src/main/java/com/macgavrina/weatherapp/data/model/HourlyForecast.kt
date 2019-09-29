@@ -11,7 +11,7 @@ data class HourlyForecast (
 )
 
 data class HourlyForecastElement (
-    val dt: Long,
+    val dt: Int,
     val main: MainClass,
     val weather: List<Weather>,
     val clouds: Clouds,

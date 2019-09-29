@@ -4,8 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.R
 import com.macgavrina.weatherapp.data.model.HourlyForecastElement
+import com.macgavrina.weatherapp.data.model.Main
+import com.macgavrina.weatherapp.utils.DateFormatter
 import kotlinx.android.synthetic.main.hourly_forecast_list_item.view.*
 
 class HourlyForecastViewAdapter:
@@ -54,11 +57,14 @@ class HourlyForecastViewAdapter:
         val item = mItems?.get(position) ?: return
 
 
-        holder.time.text = item.dt.toString()
-        holder.humidity.text = item.main.humidity.toString()
-        holder.pressure.text = item.main.pressure.toString()
-        holder.temperature.text = item.main.temp.toString()
-        holder.wind.text = item.wind.speed.toString()
+        holder.time.text = DateFormatter.formatTimeFromTimestamp(item.dt)
+        holder.humidity.text = "${item.main.humidity} %"
+        holder.pressure.text = MainApplication.applicationContext().resources.getString(R.string.pressure,
+            item.main.pressure.toString())
+        holder.temperature.text = MainApplication.applicationContext().resources.getString(R.string.temperature,
+            item.main.temp.toString())
+        holder.wind.text = MainApplication.applicationContext().resources.getString(R.string.windspeed,
+            item.wind.speed.toString())
 
         holder.setItem(mItems!![position])
     }
