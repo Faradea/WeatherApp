@@ -39,11 +39,15 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
             CityUseCase.getCityDetails(cityId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { cityDetails ->
+                .subscribe ({ cityDetails ->
                     this.selectedCityWithWeather.value = CityWithWeather(cityDetails, null)
                     loadCityWeather(cityDetails)
                     loadCityForecast(cityDetails)
+                }, {error ->
+                    Log.d(LOG_TAG,"Error loading city details, $error")
+                    //ToDo display snackbar or toast
                 })
+        )
     }
 
     private fun loadCityWeather(city: City) {
@@ -56,6 +60,7 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
                     this.selectedCityWithWeather.postValue(CityWithWeather(city, weather))
                 }, {error ->
                     Log.e(LOG_TAG, "error loading weather for city, $error")
+                    //ToDo display snackbar or toast
                 })
         )
     }
@@ -70,6 +75,7 @@ class CityDetailsViewModel(application: Application) : AndroidViewModel(MainAppl
                     hourForecast.value = weather.list
                 }, {error ->
                     Log.e(LOG_TAG, "error loading forecast for city, $error")
+                    //ToDo display snackbar or toast
                 })
         )
     }

@@ -11,7 +11,7 @@ import com.macgavrina.weatherapp.LOG_TAG
 import com.macgavrina.weatherapp.R
 import com.macgavrina.weatherapp.data.model.CityWithWeather
 import com.macgavrina.weatherapp.presentation.viewmodel.CityDetailsViewModel
-import com.macgavrina.weatherapp.utils.DateFormatter
+import com.macgavrina.weatherapp.support.DateFormatter
 import kotlinx.android.synthetic.main.activity_city_detailed.*
 
 class CityDetailedActivity : AppCompatActivity() {

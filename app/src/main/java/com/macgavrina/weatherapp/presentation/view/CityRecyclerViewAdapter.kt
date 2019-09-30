@@ -9,8 +9,6 @@ import com.macgavrina.weatherapp.R
 import com.macgavrina.weatherapp.data.model.CityWithWeather
 import kotlinx.android.synthetic.main.city_list_card.view.*
 
-//ToDo MANDATORY round coordinates
-
 class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
     RecyclerView.Adapter<CityRecyclerViewAdapter.ViewHolder>() {
 
@@ -29,6 +27,7 @@ class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
         val cityLocationTV = view.city_location_text
         val cityTemperatureTV = view.city_temperature_text
         val cityCard = view.city_card
+        val progress = view.city_progressBar
 
         private var mItem: CityWithWeather? = null
 
@@ -60,13 +59,13 @@ class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
         holder.cityNameTV.text = item.city.name
 
         holder.cityLocationTV.text = MainApplication.applicationContext().resources.getString(R.string.coordinates,
-            item.city.coordinates.lat, item.city.coordinates.lng)
+            String.format("%.3f", item.city.coordinates.lat), String.format("%.3f", item.city.coordinates.lng))
 
         if (item.weatherForCity?.main?.temp == null) {
             holder.cityTemperatureTV.text = ""
         } else {
             holder.cityTemperatureTV.text = MainApplication.applicationContext().resources.getString(R.string.temperature,
-                item.weatherForCity?.main?.temp.toString())
+                String.format("%.0f", item.weatherForCity?.main?.temp))
         }
 
         if (item.weatherForCity?.main?.humidity == null) {
@@ -77,6 +76,13 @@ class CityRecyclerViewAdapter(inputOnClickListener: OnCityClickListener) :
 
         holder.cityCard.setOnClickListener {
             mOnClickListener.onItemClick(item)
+        }
+
+        //ToDo Use progress status from viewModel (loader should be INVISIBLE if there is an error fetching data from API)
+        if (item.weatherForCity != null) {
+            holder.progress.visibility = View.INVISIBLE
+        } else {
+            holder.progress.visibility = View.VISIBLE
         }
 
 

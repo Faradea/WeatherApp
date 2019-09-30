@@ -7,12 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.macgavrina.weatherapp.MainApplication
 import com.macgavrina.weatherapp.R
 import com.macgavrina.weatherapp.data.model.HourlyForecastElement
-import com.macgavrina.weatherapp.data.model.Main
-import com.macgavrina.weatherapp.utils.DateFormatter
+import com.macgavrina.weatherapp.support.DateFormatter
 import kotlinx.android.synthetic.main.hourly_forecast_list_item.view.*
-
-
-//ToDo MANDATORY add date before time
 
 class HourlyForecastViewAdapter:
 
@@ -61,14 +57,14 @@ class HourlyForecastViewAdapter:
         val item = mItems?.get(position) ?: return
 
 
-        holder.time.text = DateFormatter.formatTimeFromTimestamp(item.dt)
+        holder.time.text = DateFormatter.formatShortDateAndTimeFromTimestamp(item.dt)
         holder.humidity.text = "${item.main.humidity} %"
         holder.pressure.text = MainApplication.applicationContext().resources.getString(R.string.pressure,
-            item.main.pressure.toString())
+            String.format("%.0f", item.main.pressure))
         holder.temperature.text = MainApplication.applicationContext().resources.getString(R.string.temperature,
-            item.main.temp.toString())
+            String.format("%.0f", item.main.temp))
         holder.wind.text = MainApplication.applicationContext().resources.getString(R.string.windspeed,
-            item.wind.speed.toString())
+            String.format("%.0f", item.wind.speed))
 
         holder.setItem(mItems!![position])
     }

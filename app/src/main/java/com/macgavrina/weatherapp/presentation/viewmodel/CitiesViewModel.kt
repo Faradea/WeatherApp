@@ -47,6 +47,7 @@ class CitiesViewModel(application: Application) : AndroidViewModel(MainApplicati
                     citiesWithWeather.postValue(citiesWithWeatherList)
                 }, {error ->
                     Log.e(LOG_TAG, "Error loading cities, $error")
+                    //ToDo display snackbar or toast
                 })
         )
     }
@@ -69,7 +70,7 @@ class CitiesViewModel(application: Application) : AndroidViewModel(MainApplicati
                     this.citiesWithWeather.postValue(citiesList)
                 }, {error ->
                     Log.e(LOG_TAG, "Error loading weather for city, $error")
-                    //ToDo MANDATORY Display toast
+                    //ToDo display snackbar or toast
                 })
         )
     }
